@@ -1,0 +1,28 @@
+<html>
+<head>
+</head>
+<body>
+  <div id="messages">
+  </div>
+  
+  <script src="http://localhost/socket.io/socket.io.js"></script>
+  <script>
+    function log(message) {
+      var el = document.getElementById("messages");
+      el.innerHTML = el.innerHTML + "<br/>" + message;
+    }
+
+    var socket = new io.Socket("localhost");
+    socket.connect();
+    socket.on('connect', function() {
+      socket.send(JSON.stringify({ command: "join", channel: "chat" }));
+    });
+    socket.on('message', function(data) {
+      log("message: " + data);
+    });
+    socket.on('disconnect', function() {
+      log("disconnected");
+    });
+  </script>
+</body>
+</html>

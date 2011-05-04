@@ -1,0 +1,5 @@
+=Installation=
+1. Build and install nodejs
+2. Install npm
+3. npm install socket.io 
+4. npm install hiredis redis
