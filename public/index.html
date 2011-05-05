@@ -2,6 +2,13 @@
 <head>
 </head>
 <body>
+  <!-- <div>
+    Channel: <input type="text" id="channel" /> <button id="join_btn">Join</button>
+  </div> -->
+  <div>
+    <input type="text" id="message" size="100"/> <button id="message_btn">Send</button>
+  </div>
+  
   <div id="messages">
   </div>
   
@@ -11,11 +18,17 @@
       var el = document.getElementById("messages");
       el.innerHTML = el.innerHTML + "<br/>" + message;
     }
-
+    
     var socket = new io.Socket("localhost");
     socket.connect();
     socket.on('connect', function() {
       socket.send(JSON.stringify({ command: "join", channel: "chat" }));
+      
+      var button = document.getElementById("message_btn");
+      button.addEventListener("click", function() {
+        var button = document.getElementById("message");
+        socket.send(JSON.stringify({ command: "message", value: button.value }))
+      });
     });
     socket.on('message', function(data) {
       log("message: " + data);
@@ -25,4 +38,5 @@
     });
   </script>
 </body>
+
 </html>
